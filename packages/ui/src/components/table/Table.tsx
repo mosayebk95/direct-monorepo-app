@@ -4,50 +4,34 @@ import { Icon } from '../Icon';
 import { Loading } from '../Loading';
 import { TableHead } from './TableHead';
 import { TableBody } from './TableBody';
-import { TableFooter } from './TableFooter';
+
+export type Align = 'start' | 'center' | 'end';
+export type SortOrder = 'asc' | 'desc';
 
 export interface Column<T> {
-  key: string;
+  key: keyof T;
   title: string;
   sortable?: boolean;
   width?: string;
-  align?: 'start' | 'center' | 'end';
+  align?: Align;
   render?: (value: any, item: T) => ReactNode;
 }
 
 interface Props<T> {
   columns: Column<T>[];
-  data: T[] | null | undefined;
+  data?: T[] | null;
   loading?: boolean;
-  sortColumn?: string;
-  sortDirection?: 'asc' | 'desc';
+  sortBy?: keyof T;
+  sortOrder?: SortOrder;
   selectedRowId?: string | number;
-  page: number;
-  pageSize: number;
-  totalPages: number;
   emptyState?: ReactNode;
   className?: string;
   keyExtractor: (item: T) => string | number;
-  onSort?: (columnKey: string, direction: 'asc' | 'desc') => void;
+  onSort?: (columnKey: keyof T, newOrder: SortOrder) => void;
   onRowClick?: (item: T) => void;
-  onPageSizeChange: (value: number) => void;
-  onPageChange: (value: number) => void;
 }
 
-export const Table = <T extends Record<string, any>>({
-  columns,
-  data,
-  loading = false,
-  sortColumn,
-  sortDirection,
-  selectedRowId,
-  emptyState,
-  className,
-  keyExtractor,
-  onSort,
-  onRowClick,
-  ...rest
-}: Props<T>) => {
+export const Table = <T extends Record<string, any>>({ columns, data, loading, sortBy, sortOrder, emptyState, className, onSort, ...rest }: Props<T>) => {
   if (loading) {
     return (
       <div className={clsx('rounded-lg border border-zinc-200 text-center py-12', className)}>
@@ -74,9 +58,8 @@ export const Table = <T extends Record<string, any>>({
   return (
     <div className={clsx('overflow-x-auto rounded-lg border border-zinc-200 bg-white', className)}>
       <table className='min-w-full divide-y divide-zinc-200'>
-        <TableHead columns={columns} sortColumn={sortColumn} sortDirection={sortDirection} onSort={onSort} />
-        <TableBody columns={columns} data={data} selectedRowId={selectedRowId} keyExtractor={keyExtractor} onRowClick={onRowClick} />
-        <TableFooter columnsCount={columns.length} {...rest} />
+        <TableHead columns={columns} sortBy={sortBy} sortOrder={sortOrder} onSort={onSort} />
+        <TableBody columns={columns} data={data} {...rest} />
       </table>
     </div>
   );

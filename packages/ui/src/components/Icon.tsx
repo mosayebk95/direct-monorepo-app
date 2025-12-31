@@ -1,29 +1,7 @@
 import clsx from 'clsx';
-import {
-  ChevronDown,
-  ChevronLeft,
-  ChevronRight,
-  ChevronsLeft,
-  ChevronsRight,
-  FileText,
-  MoveDown,
-  MoveUp,
-  MoveVertical,
-  RefreshCw,
-  type LucideIcon,
-} from 'lucide-react';
+import { ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, FileText, MoveDown, MoveUp, MoveVertical, RefreshCw, type LucideIcon } from 'lucide-react';
 
-export type IconName =
-  | 'chevron-down'
-  | 'chevron-left'
-  | 'chevron-right'
-  | 'chevrons-left'
-  | 'chevrons-right'
-  | 'file-text'
-  | 'move-down'
-  | 'move-up'
-  | 'move-vertical'
-  | 'refresh';
+export type IconName = 'chevron-down' | 'chevron-left' | 'chevron-right' | 'chevrons-left' | 'chevrons-right' | 'file-text' | 'move-down' | 'move-up' | 'move-vertical' | 'refresh';
 
 const icons: Record<IconName, LucideIcon> = {
   'chevron-down': ChevronDown,

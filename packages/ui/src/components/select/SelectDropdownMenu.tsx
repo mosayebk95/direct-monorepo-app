@@ -2,17 +2,18 @@ import type { Dispatch, SetStateAction } from 'react';
 import { clsx } from 'clsx';
 import type { SelectOption } from './Select';
 
-interface Props {
+interface Props<T> {
   focusedIdx: number;
-  options: SelectOption[];
-  selectedValue?: string;
-  onSelect: (value: string) => void;
+  options: SelectOption<T>[];
+  selectedValue?: T;
+  position: 'bottom' | 'top';
+  onSelect: (value: T) => void;
   onFocusedIdx: Dispatch<SetStateAction<number>>;
 }
 
-export const SelectDropdownMenu = ({ focusedIdx, options, selectedValue, onSelect, onFocusedIdx }: Props) => {
+export const SelectDropdownMenu = <T extends string | number>({ focusedIdx, options, selectedValue, position, onSelect, onFocusedIdx }: Props<T>) => {
   return (
-    <div className='absolute z-10 w-full mt-1 bg-white border border-zinc-300 rounded-lg shadow-lg max-h-60 overflow-auto'>
+    <div className={clsx('absolute z-50 w-full bg-white border border-zinc-300 rounded-lg shadow-lg max-h-60 overflow-auto', position === 'bottom' ? 'top-full mt-1' : 'bottom-full mb-1')}>
       <div className='py-1'>
         {options.map(({ value, label, disabled }, idx) => (
           <div

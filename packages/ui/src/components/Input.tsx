@@ -12,14 +12,14 @@ export const Input = forwardRef<HTMLInputElement, Props>(({ className, title, de
   const inputId = id || `input-${Math.random().toString(36).slice(2, 11)}`;
 
   return (
-    <div className={className}>
+    <div className={clsx('space-y-1', className)}>
       {title && (
-        <label htmlFor={inputId} className='block text-sm font-medium text-zinc-700 mb-1'>
+        <label htmlFor={inputId} className='block text-sm font-medium text-zinc-700'>
           {title}
         </label>
       )}
 
-      {description && <p className='text-sm text-zinc-500 mb-1'>{description}</p>}
+      {description && <p className='text-sm text-zinc-500'>{description}</p>}
 
       <input
         ref={ref}

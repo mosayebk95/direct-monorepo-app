@@ -1,9 +1,14 @@
+import type { SortOrder } from '@monorepo/ui';
+
+export type UserRole = 'Admin' | 'User' | '';
+export type UserStatus = 'Active' | 'Suspended' | 'Pending' | '';
+
 export interface User {
   id: number;
   name: string;
   email: string;
-  role: string;
-  status: 'Active' | 'Suspended' | 'Pending';
+  role: UserRole;
+  status: UserStatus;
   joinDate: string;
 }
 
@@ -22,5 +27,5 @@ export interface UsersRequest {
   status?: string;
   role?: string;
   sortBy?: string;
-  sortOrder?: 'asc' | 'desc';
+  sortOrder?: SortOrder;
 }

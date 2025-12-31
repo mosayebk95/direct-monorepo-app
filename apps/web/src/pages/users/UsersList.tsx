@@ -1,19 +1,15 @@
 import { useState } from 'react';
 
-import { Table, type Column } from '@monorepo/ui';
+import { Table, Badge, type Column, type SortOrder } from '@monorepo/ui';
 import { changeDateFormat } from '@monorepo/utils';
-import { type UsersResponse, type User } from '../../api/users';
+import { type UsersResponse, type User } from '../../core/users';
 
 interface Props {
   users: UsersResponse | null;
   loading: boolean;
-  sortBy: string;
-  sortOrder: 'asc' | 'desc';
-  page: number;
-  pageSize: number;
-  onSort: (columnKey: string, direction: 'asc' | 'desc') => void;
-  onPageSizeChange: (value: number) => void;
-  onPageChange: (value: number) => void;
+  sortBy: keyof User;
+  sortOrder: SortOrder;
+  onSort: (columnKey: keyof User, direction: SortOrder) => void;
 }
 const UsersList = ({ users, ...rest }: Props) => {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
@@ -37,35 +33,18 @@ const UsersList = ({ users, ...rest }: Props) => {
       ),
     },
     { key: 'role', title: 'Role', sortable: true },
-    {
-      key: 'status',
-      title: 'Status',
-      sortable: true,
-      align: 'center',
-      render: value => (
-        <span
-          className={`px-2 py-1 text-xs font-medium rounded-full ${value === 'Suspended' ? 'bg-red-100 text-red-800' : value === 'Pending' ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800'}`}
-        >
-          {value}
-        </span>
-      ),
-    },
+    { key: 'status', title: 'Status', sortable: true, align: 'center', render: value => <Badge color={value === 'Suspended' ? 'danger' : value === 'Pending' ? 'warning' : 'success'}>{value}</Badge> },
     { key: 'joinDate', title: 'Join Date', sortable: true, width: '150px', align: 'end', render: value => changeDateFormat(value) },
   ];
-
-  const handleRowClick = (item: User) => {
-    setSelectedUser(selectedUser?.id === item.id ? null : item);
-  };
 
   return (
     <Table
       columns={columns}
       data={users?.data}
       selectedRowId={selectedUser?.id}
-      className='m-6'
       keyExtractor={user => user.id}
-      onRowClick={handleRowClick}
-      totalPages={users?.totalPages || 1}
+      onRowClick={(user: User) => setSelectedUser(selectedUser?.id === user.id ? null : user)}
+      className='m-6'
       {...rest}
     />
   );

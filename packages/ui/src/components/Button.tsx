@@ -23,15 +23,11 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   loading?: boolean;
 }
 
-export const Button = ({ children, className, variant = 'primary', size = 'md', loading = false, disabled, ...rest }: Props) => {
+export const Button = ({ children, className, variant = 'primary', size = 'md', loading, disabled, ...rest }: Props) => {
   const baseClasses = 'inline-flex items-center gap-2 font-medium rounded-lg transition-colors focus:outline-none';
 
   return (
-    <button
-      className={clsx(baseClasses, variantClasses[variant], sizeClasses[size], (disabled || loading) && 'opacity-50 cursor-not-allowed', className)}
-      disabled={disabled || loading}
-      {...rest}
-    >
+    <button className={clsx(baseClasses, variantClasses[variant], sizeClasses[size], (disabled || loading) && 'opacity-50 cursor-not-allowed', className)} disabled={disabled || loading} {...rest}>
       {children}
       {loading && <Loading />}
     </button>

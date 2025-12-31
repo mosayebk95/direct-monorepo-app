@@ -21,14 +21,7 @@ export const changeDateFormat = (value: string | null, format: string = 'YYYY-MM
   }
   const hours = formatTwoDigits(h);
 
-  const formattedDate = format
-    .replace('YYYY', year)
-    .replace('MM', month)
-    .replace('DD', day)
-    .replace('HH', hours)
-    .replace('hh', hours)
-    .replace('mm', minutes)
-    .replace('a', period);
+  const formattedDate = format.replace('YYYY', year).replace('MM', month).replace('DD', day).replace('HH', hours).replace('hh', hours).replace('mm', minutes).replace('a', period);
 
   return formattedDate;
 };

@@ -11,9 +11,7 @@ export const getUsers = (params: UsersRequest): Promise<UsersResponse> => {
 
       // Apply search filter
       if (keyword) {
-        filteredUsers = filteredUsers.filter(
-          user => user.name.toLowerCase().includes(keyword.toLowerCase()) || user.email.toLowerCase().includes(keyword.toLowerCase())
-        );
+        filteredUsers = filteredUsers.filter(user => user.name.toLowerCase().includes(keyword.toLowerCase()) || user.email.toLowerCase().includes(keyword.toLowerCase()));
       }
 
       // Apply status filter
@@ -37,13 +35,15 @@ export const getUsers = (params: UsersRequest): Promise<UsersResponse> => {
         });
       }
 
-      resolve({
-        data: paginate(filteredUsers, page, pageSize), // Apply pagination
+      const reponse: UsersResponse = {
+        data: paginate(filteredUsers, page, pageSize),
         total: filteredUsers.length,
         page,
         pageSize,
         totalPages: Math.ceil(filteredUsers.length / pageSize),
-      });
+      };
+
+      resolve(reponse);
     }, 1000); // 1000ms delay to simulate network
   });
 };
